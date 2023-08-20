@@ -44,5 +44,17 @@ def mark_view(request, todo_id):
             return redirect("todo_index")
         except Todo.DoesNotExist:
             return HttpResponse("Todo Not found")
+
+
+# def update_view(request, todo_id):
+#     if request.method == "POST":
+#         return HttpResponse("Invalid Method")
+#     else:
+#         try:
+#             todo_obj = Todo.objects.get(id = todo_id)
+            
+#             return redirect("todo_index")
+#         except Todo.DoesNotExist:
+#             return HttpResponse("Todo Not found")
         
         
