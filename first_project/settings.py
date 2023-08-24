@@ -36,6 +36,8 @@ MODE = os.environ.get('MODE')
 
 DB_STRING = os.environ.get('DB_STRING')
 
+IS_DEV_ENV = MODE == 'dev' 
+
 ALLOWED_HOSTS = ["*"]
 
 
@@ -86,10 +88,18 @@ WSGI_APPLICATION = "first_project.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+if IS_DEV_ENV:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
+        "default": dj_database_url.parse(DB_STRING)
+    }
 
-DATABASES = {
-    "default": dj_database_url.parse(DB_STRING)
-}
 
 
 # Password validation
