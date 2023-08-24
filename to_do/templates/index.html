@@ -10,11 +10,19 @@
     <h1>
         Todo_App
     </h1>
+    <a href="/to_do/?completed=1" class="btn btn-success">Show completed Todos</a>
+    <a href="/to_do/?completed=0" class="btn btn-warning">Show incomplete Todos</a>
+    <a href="/to_do/?order=0" class="btn btn-info">Order by date oldest</a>
+    <a href="/to_do/?order=1" class="btn btn-dark">Order by date latest</a>
+    <form method = "GET" action = "{% url 'todo_index' %}" >
+        <input type = "text" class="form-control" id="todosearch" name = "todosearch" required  placeholder = "Search your Todo">
+        <button type="submit" class="btn btn-secondary">Search</button>
+    </form>
     <form method = "POST" action = "{% url 'add_todo'%}" autocomplete="off" >
         {% csrf_token %}
         <div class="mb-3">
     <label for="todoInput" class="form-label">Add todo !</label>
-    <input type="text" class="form-control" id="todoInput" name = "todoInput" required>
+    <input type="text" class="form-control" id="todoInput" name = "todoInput" required  />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
@@ -26,6 +34,8 @@
         {% for todo in todos %}
         <li class = "list-group-item {% if todo.completed %} list-group-item-success {%else%} list-group-item-danger {%endif%}" style= "display: flex; justify-content: space-between;">
             {{todo.title}}
+            <br>
+            <span class = "badge rounded-pill text-bg-info">{{todo.created_time}}</span>
             <div>
         <form method = "GET" action = "{% url 'delete_todo' todo.id %}" >
         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
@@ -33,7 +43,7 @@
         {% if todo.completed == False %}
 
         <form method = "GET" action = "{% url 'mark_todo' todo.id %}" >
-        <button type="submit" class="btn btn-sm  btn-warning">Mark completed</button>
+        <button type="submit" class="btn btn-sm  btn-primary">Mark completed</button>
         </form>
         {% comment %} <form method = "GET" action = "{% url 'update_todo' todo.id %}" >
         <button type="submit" class="btn btn-sm  btn-warning">Update</button>

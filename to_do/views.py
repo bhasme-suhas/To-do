@@ -5,9 +5,24 @@ from .models import Todo
 from django.http import HttpResponse
 
 # Create your views here.
+CONVERT_TO_BOOL = {"0":False,"1":True}
+
+ORDER_TO_BOOL = {"0":"created_time","1":"-created_time"}
 
 def index(request):
-    all_todos = Todo.objects.all().order_by("title")
+    search = request.GET.get("todosearch")
+    completed = request.GET.get("completed")
+    order = request.GET.get("order")
+    all_todos = Todo.objects.all()
+    #Search 
+    if search != None:
+        all_todos = all_todos.filter(title__icontains=search)
+    if completed != None:
+        value = CONVERT_TO_BOOL.get(completed)
+        all_todos = all_todos.filter(completed = value)
+    if order != None:
+        value = ORDER_TO_BOOL.get(order)
+        all_todos = all_todos.order_by(value) 
     data = {
         "todos" : all_todos
     }
