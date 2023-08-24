@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import environ
 import os
+import dj_database_url
 
 env = environ.Env()
 
@@ -32,6 +33,8 @@ SECRET_KEY = os.environ.get('DEBUG')
 DEBUG = os.environ.get('DEBUG') == 'on'
 
 MODE = os.environ.get('MODE')
+
+DB_STRING = os.environ.get('DB_STRING')
 
 ALLOWED_HOSTS = ["*"]
 
@@ -85,10 +88,7 @@ WSGI_APPLICATION = "first_project.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.parse(DB_STRING)
 }
 
 
